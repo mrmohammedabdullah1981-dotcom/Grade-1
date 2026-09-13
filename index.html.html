@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>اختبار الحروف الإنجليزية (A - J) - مدارس البيارق الأهلية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: #086b51;
+      --secondary-gold: #c59336;
+      --light-gold: #fcf9f1;
+      --bg-color: #f2f7f5;
+      --text-dark: #24332d;
+      --danger-red: #d63031;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e4efe9 0%, #f6f9f8 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      color: var(--text-dark);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 820px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+      overflow: hidden;
+      border: 2px solid #e1ede8;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      background: #ffffff;
+      padding: 18px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #edf4f1;
+    }
+
+    .school-branding h2 {
+      font-size: 1.4rem;
+      color: var(--primary-green);
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .school-branding span {
+      font-size: 0.9rem;
+      color: var(--secondary-gold);
+      font-weight: 700;
+    }
+
+    /* Screens */
+    .screen {
+      display: none;
+      padding: 30px;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .hero-card {
+      text-align: center;
+      padding: 15px 10px;
+    }
+
+    .hero-card h1 {
+      color: var(--primary-green);
+      font-size: 1.9rem;
+      margin-bottom: 10px;
+    }
+
+    .hero-card p {
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 1.05rem;
+    }
+
+    .input-box {
+      max-width: 420px;
+      margin: 0 auto 20px;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 14px 20px;
+      font-size: 1.15rem;
+      border: 2px solid #cbdcd5;
+      border-radius: 12px;
+      outline: none;
+      transition: border-color 0.2s;
+      text-align: center;
+    }
+
+    .input-box input:focus {
+      border-color: var(--primary-green);
+      box-shadow: 0 0 0 4px rgba(8, 107, 81, 0.12);
+    }
+
+    .btn {
+      background: var(--primary-green);
+      color: white;
+      border: none;
+      padding: 14px 35px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background: #064c39;
+    }
+
+    /* Quiz Header */
+    .quiz-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f7faf8;
+      padding: 12px 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      font-weight: 700;
+    }
+
+    .timer-badge {
+      background: #fdf2f2;
+      color: #c0392b;
+      padding: 6px 15px;
+      border-radius: 20px;
+      font-size: 1rem;
+      border: 1px solid #f9d6d2;
+    }
+
+    /* Question Box */
+    .question-card {
+      text-align: center;
+    }
+
+    .visual-box {
+      font-size: 5.2rem;
+      height: 115px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 0 15px;
+      user-select: none;
+    }
+
+    .question-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      direction: ltr;
+      margin-bottom: 8px;
+    }
+
+    .question-title {
+      font-size: 1.6rem;
+      color: var(--primary-green);
+      font-weight: 800;
+    }
+
+    .audio-play-btn {
+      background: var(--light-gold);
+      border: 2px solid var(--secondary-gold);
+      color: var(--secondary-gold);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .audio-play-btn:hover {
+      background: var(--secondary-gold);
+      color: white;
+      transform: scale(1.08);
+    }
+
+    .question-sub {
+      font-size: 1.05rem;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      max-width: 550px;
+      margin: 0 auto;
+    }
+
+    .opt-btn {
+      background: #ffffff;
+      border: 2px solid #e1ece7;
+      padding: 15px;
+      border-radius: 14px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #333;
+      cursor: pointer;
+      direction: ltr;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .opt-btn:hover {
+      border-color: var(--secondary-gold);
+      background: var(--light-gold);
+    }
+
+    /* Leaderboard & Controls */
+    .leaderboard-section {
+      margin-top: 30px;
+      background: #fafcfb;
+      border: 1px solid #e4eee9;
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .leaderboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .leaderboard-header h3 {
+      font-size: 1.15rem;
+      color: var(--primary-green);
+    }
+
+    .btn-clear-all {
+      background: #fdf2f2;
+      color: var(--danger-red);
+      border: 1px solid #fab1a0;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-clear-all:hover {
+      background: #ffeaa7;
+    }
+
+    .btn-del-single {
+      background: transparent;
+      border: none;
+      color: var(--danger-red);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+
+    .btn-del-single:hover {
+      background: #fdf0ed;
+    }
+
+    .leader-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    .leader-table th, .leader-table td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+
+    .leader-table th {
+      background: #eef6f2;
+      color: var(--primary-green);
+    }
+
+    /* Result Screen & Certificate */
+    .result-content {
+      text-align: center;
+    }
+
+    .score-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: var(--light-gold);
+      border: 4px solid var(--secondary-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary-green);
+    }
+
+    .certificate {
+      background: #ffffff;
+      border: 10px solid var(--primary-green);
+      padding: 30px 25px;
+      border-radius: 16px;
+      position: relative;
+      margin: 25px 0;
+      box-shadow: 0 0 0 4px var(--secondary-gold) inset;
+    }
+
+    .cert-header {
+      text-align: center;
+      border-bottom: 2px dashed #cbdcd5;
+      padding-bottom: 15px;
+      margin-bottom: 20px;
+    }
+
+    .cert-title-group h1 {
+      font-size: 1.8rem;
+      color: var(--secondary-gold);
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .cert-title-group span {
+      font-size: 1rem;
+      color: var(--primary-green);
+      font-weight: bold;
+    }
+
+    .cert-body {
+      font-size: 1.2rem;
+      line-height: 2;
+      color: #333;
+    }
+
+    .student-highlight {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary-green);
+      text-decoration: underline;
+      text-decoration-color: var(--secondary-gold);
+      margin: 0 6px;
+    }
+
+    .cert-medal {
+      margin: 15px 0 5px;
+      font-size: 2.8rem;
+    }
+
+    .cert-signatures {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding-top: 18px;
+      border-top: 2px dashed #cbdcd5;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .signature-item {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .signature-item strong {
+      display: block;
+      color: var(--primary-green);
+      font-size: 1.1rem;
+      margin-top: 4px;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .certificate, .certificate * {
+        visibility: visible;
+      }
+      .certificate {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: 10px solid var(--primary-green) !important;
+        box-shadow: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Top Bar: Grade 1 -->
+  <div class="top-bar">
+    <div class="school-branding">
+      <h2>مدارس البيارق الأهلية</h2>
+      <span>AL Bayariq Private Schools</span>
+    </div>
+    <div style="text-align: left; font-size: 0.9rem; color: #555;">
+      <div><strong style="color: var(--primary-green); font-size: 1rem;">Grade 1 Primary</strong></div>
+      <div>Letters (A to J) Quiz</div>
+    </div>
+  </div>
+
+  <!-- Screen 1: Registration -->
+  <div id="screen-register" class="screen active">
+    <div class="hero-card">
+      <h1>تحدي الحروف الإنجليزية (A - J) 🔤</h1>
+      <p>أهلاً ببطل الصف الأول الابتدائي! اكتب اسمك لبدء الاختبار التفاعلي مع الاستماع لأصوات الكلمات 🔊</p>
+      
+      <div class="input-box">
+        <input type="text" id="studentNameInput" placeholder="اكتب اسم الطالب هنا..." autocomplete="off">
+      </div>
+
+      <button class="btn" onclick="startQuiz()">ابدأ الاختبار الآن 🚀</button>
+    </div>
+
+    <!-- Leaderboard with Protected Clear Control -->
+    <div class="leaderboard-section">
+      <div class="leaderboard-header">
+        <h3>🏆 لوحة شرف المتفوقين - الصف الأول (Grade 1)</h3>
+        <button class="btn-clear-all" onclick="clearAllLeaderboard()">مسح الجدول بالكامل 🔒</button>
+      </div>
+      <table class="leader-table">
+        <thead>
+          <tr>
+            <th>الترتيب</th>
+            <th>اسم الطالب</th>
+            <th>النسبة</th>
+            <th>الميدالية</th>
+            <th>حذف 🔒</th>
+          </tr>
+        </thead>
+        <tbody id="homeLeaderboardBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Screen 2: Quiz -->
+  <div id="screen-quiz" class="screen">
+    <div class="quiz-status">
+      <div>السؤال <span id="currentQNum">1</span> من <span id="totalQNum">10</span></div>
+      <div>الطالب: <span id="quizStudentName" style="color:var(--primary-green);"></span></div>
+      <div class="timer-badge">⏱️ <span id="timerDisplay">10:00</span></div>
+    </div>
+
+    <div class="question-card">
+      <div class="visual-box" id="questionVisual"></div>
+
+      <div class="question-header-row">
+        <span class="question-title" id="questionTitle"></span>
+        <button class="audio-play-btn" id="listenWordBtn" title="استمع لنطق الكلمة الصحيحة" onclick="speakTargetWord()">🔊</button>
+      </div>
+
+      <div class="question-sub" id="questionSubtitle"></div>
+
+      <div class="options-grid" id="optionsContainer"></div>
+    </div>
+  </div>
+
+  <!-- Screen 3: Result & Certificate -->
+  <div id="screen-result" class="screen">
+    <div class="result-content">
+      <div class="score-circle" id="finalScoreDisplay">0%</div>
+      <h2 id="congratsTitle" style="color: var(--primary-green); margin-bottom: 8px;">النتيجة</h2>
+      <p id="congratsDesc" style="color: #666; margin-bottom: 20px;"></p>
+
+      <!-- Certificate Box -->
+      <div id="certificateBox" class="certificate" style="display: none;">
+        <div class="cert-header">
+          <div class="cert-title-group">
+            <h1>شهادة شكر وتقدير وإتقان</h1>
+            <span>مدارس البيارق الأهلية | AL Bayariq Private Schools</span>
+          </div>
+        </div>
+
+        <div class="cert-body">
+          تَشهد إدارة مدارس البيارق الأهلية وقسم اللغة الإنجليزية بأن البطل المتميز:<br>
+          <span class="student-highlight" id="certStudentName"></span><br>
+          بالصف الأول الابتدائي (Grade 1)، قد أتقن مهارات أول 10 حروف من الأبجدية الإنجليزية (A - J) بنجاح فائق ونال نسبة 
+          <strong id="certScore" style="color: var(--primary-green); font-size: 1.35rem;"></strong>
+          مستحقاً المركز <strong id="certRank" style="color: var(--secondary-gold); font-size: 1.25rem;"></strong> في الترتيب العام.
+        </div>
+
+        <div class="cert-medal" id="certMedalIcon">🥇</div>
+        <div id="certMedalText" style="font-weight: 700; color: var(--secondary-gold); font-size: 1.15rem;"></div>
+
+        <!-- Signatures in English -->
+        <div class="cert-signatures">
+          <div class="signature-item">
+            <div>Teacher of English:</div>
+            <strong>Mr. Khalil Mohammed</strong>
+          </div>
+          <div class="signature-item">
+            <div>School Principal:</div>
+            <strong>Mr. Wael Gafary</strong>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 25px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+        <button class="btn" id="printCertBtn" onclick="window.print()" style="display: none; background: var(--secondary-gold);">حفظ / طباعة الشهادة 🖨️</button>
+        <button class="btn" onclick="restartQuiz()">اختبار طالب آخر 🔄</button>
+      </div>
+
+      <!-- Leaderboard Post-Quiz with Protected Clear Control -->
+      <div class="leaderboard-section" style="margin-top: 30px;">
+        <div class="leaderboard-header">
+          <h3>🏆 قائمة ترتيب الأوائل والمتفوقين - Grade 1</h3>
+          <button class="btn-clear-all" onclick="clearAllLeaderboard()">مسح الجدول بالكامل 🔒</button>
+        </div>
+        <table class="leader-table">
+          <thead>
+            <tr>
+              <th>الترتيب</th>
+              <th>اسم الطالب</th>
+              <th>النسبة</th>
+              <th>الميدالية</th>
+              <th>حذف 🔒</th>
+            </tr>
+          </thead>
+          <tbody id="resultLeaderboardBody"></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Teacher Secret PIN (رمز المعلم لمسح الطلاب)
+  const TEACHER_PIN = "1234";
+
+  // Speech Functionality using standard browser Web Speech API
+  function speakEnglish(word) {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel(); // Stop any pending speech
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.85; // slightly slower and clear for Grade 1 children
+      utterance.pitch = 1.0;
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  // First 10 Letters (A to J) - Grade 1 Level
+  const questions = [
+    {
+      letter: "A",
+      targetWord: "Apple",
+      title: "Letter A: A is for ...",
+      sub: "ما الكلمة التي تبدأ بحرف (A)؟ اضغط 🔊 لسماع النطق",
+      visual: "🍎",
+      options: ["Apple", "Book", "Cat", "Duck"],
+      correct: 0
+    },
+    {
+      letter: "B",
+      targetWord: "Book",
+      title: "Letter B: B is for ...",
+      sub: "ما الكلمة التي تبدأ بحرف (B)؟ اضغط 🔊 لسماع كلمة كتاب",
+      visual: "📕",
+      options: ["Car", "Book", "Egg", "Fish"],
+      correct: 1
+    },
+    {
+      letter: "C",
+      targetWord: "Cat",
+      title: "Letter C: C is for ...",
+      sub: "ما الكلمة التي تبدأ بحرف (C)؟ اضغط 🔊 لسماع النطق",
+      visual: "🐱",
+      options: ["Cat", "Dog", "Apple", "Goat"],
+      correct: 0
+    },
+    {
+      letter: "D",
+      targetWord: "Duck",
+      title: "Letter D: D is for ...",
+      sub: "ما الكلمة التي تبدأ بحرف (D)؟ اضغط 🔊 لسماع النطق",
+      visual: "🦆",
+      options: ["Elephant", "Duck", "Hat", "Insect"],
+      correct: 1
+    },
+    {
+      letter: "E",
+      targetWord: "Elephant",
+      title: "Letter E: E is for ...",
+      sub: "ما الكلمة التي تبدأ بحرف (E)؟ اضغط 🔊 لسماع النطق",
+      visual: "🐘",
+      options: ["Elephant", "Horse", "Lion", "Tiger"],
+      correct: 0
+    },
+    {
+      letter: "F",
+      targetWord: "Fish",
+      title: "Letter F: F is for ...",
+      sub: "ما الكلمة التي تبدأ بحرف (F)؟ اضغط 🔊 لسماع النطق",
+      visual: "🐟",
+      options: ["Bird", "Fish", "Cat", "Dog"],
+      correct: 1
+    },
+    {
+      letter: "G",
+      targetWord: "Giraffe",
+      title: "Letter G: G is for ...",
+      sub: "ما الكلمة التي تبدأ بحرف (G)؟ اضغط 🔊 لسماع النطق",
+      visual: "🦒",
+      options: ["Giraffe", "Elephant", "Duck", "Bear"],
+      correct: 0
+    },
+    {
+      letter: "H",
+      targetWord: "Hat",
+      title: "Letter H: H is for ...",
+      sub: "ما الكلمة التي تبدأ بحرف (H)؟ اضغط 🔊 لسماع النطق",
+      visual: "🎩",
+      options: ["Pen", "Hat", "Car", "Book"],
+      correct: 1
+    },
+    {
+      letter: "I",
+      targetWord: "Ice",
+      title: "Letter I: I is for ...",
+      sub: "ما الكلمة التي تبدأ بحرف (I)؟ اضغط 🔊 لسماع النطق",
+      visual: "🧊",
+      options: ["Ice", "Juice", "Water", "Tea"],
+      correct: 0
+    },
+    {
+      letter: "J",
+      targetWord: "Juice",
+      title: "Letter J: J is for ...",
+      sub: "ما الكلمة التي تبدأ بحرف (J)؟ اضغط 🔊 لسماع النطق",
+      visual: "🧃",
+      options: ["Milk", "Juice", "Apple", "Fish"],
+      correct: 1
+    }
+  ];
+
+  let currentStudent = "";
+  let currentQIndex = 0;
+  let studentScore = 0;
+  let timerInterval = null;
+  let timeLeft = 600;
+
+  function speakTargetWord() {
+    const q = questions[currentQIndex];
+    if (q) {
+      speakEnglish(q.targetWord);
+    }
+  }
+
+  function getLeaderboard() {
+    const data = localStorage.getItem("albayariq_quiz_grade1");
+    if (data !== null) {
+      return JSON.parse(data);
+    }
+    return [];
+  }
+
+  function saveLeaderboard(list) {
+    localStorage.setItem("albayariq_quiz_grade1", JSON.stringify(list));
+  }
+
+  function verifyTeacher() {
+    const enteredPin = prompt("خاص بالمعلم فقط: أدخل الرمز السري للمتابعة:");
+    if (enteredPin === null) return false;
+    if (enteredPin.trim() === TEACHER_PIN) {
+      return true;
+    } else {
+      alert("عذراً، الرمز السري غير صحيح!");
+      return false;
+    }
+  }
+
+  function deleteSingleStudent(index) {
+    if (!verifyTeacher()) return;
+
+    if (confirm("هل تريد بالتأكيد حذف هذا الطالب من لوحة الشرف؟")) {
+      const list = getLeaderboard();
+      list.splice(index, 1);
+      saveLeaderboard(list);
+      renderLeaderboards();
+    }
+  }
+
+  function clearAllLeaderboard() {
+    if (!verifyTeacher()) return;
+
+    if (confirm("تحذير نهائي: هل أنت متأكد من مسح جميع نتائج الطلاب بالكامل؟")) {
+      saveLeaderboard([]);
+      renderLeaderboards();
+    }
+  }
+
+  function renderLeaderboards() {
+    const list = getLeaderboard();
+    list.sort((a, b) => b.score - a.score);
+
+    const makeRows = (items) => {
+      if (items.length === 0) {
+        return `<tr><td colspan="5" style="color:#888; padding: 20px;">لا يوجد طلاب مسجلون حالياً. ابدأ الاختبار لإضافة أوائل المتفوقين!</td></tr>`;
+      }
+      return items.map((st, idx) => `
+        <tr style="${st.name === currentStudent ? 'background: #eef8f3; font-weight: bold;' : ''}">
+          <td>#${idx + 1}</td>
+          <td>${st.name}</td>
+          <td>${st.score}%</td>
+          <td>${st.medal}</td>
+          <td><button class="btn-del-single" onclick="deleteSingleStudent(${idx})" title="حذف بواسطة المعلم">🔒 ❌</button></td>
+        </tr>
+      `).join('');
+    };
+
+    const homeBody = document.getElementById("homeLeaderboardBody");
+    const resBody = document.getElementById("resultLeaderboardBody");
+    if (homeBody) homeBody.innerHTML = makeRows(list);
+    if (resBody) resBody.innerHTML = makeRows(list);
+  }
+
+  function startQuiz() {
+    const nameInput = document.getElementById("studentNameInput");
+    const name = nameInput.value.trim();
+    if (!name) {
+      alert("فضلاً اكتب اسم الطالب قبل البدء");
+      return;
+    }
+
+    currentStudent = name;
+    document.getElementById("quizStudentName").innerText = currentStudent;
+
+    currentQIndex = 0;
+    studentScore = 0;
+    timeLeft = 600;
+
+    showScreen("screen-quiz");
+    startTimer();
+    loadQuestion();
+  }
+
+  function startTimer() {
+    clearInterval(timerInterval);
+    const display = document.getElementById("timerDisplay");
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      let mins = Math.floor(timeLeft / 60);
+      let secs = timeLeft % 60;
+      display.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        finishQuiz();
+      }
+    }, 1000);
+  }
+
+  function loadQuestion() {
+    const q = questions[currentQIndex];
+    document.getElementById("currentQNum").innerText = currentQIndex + 1;
+    document.getElementById("totalQNum").innerText = questions.length;
+    document.getElementById("questionTitle").innerText = q.title;
+    document.getElementById("questionSubtitle").innerText = q.sub;
+    document.getElementById("questionVisual").innerText = q.visual;
+
+    const optContainer = document.getElementById("optionsContainer");
+    optContainer.innerHTML = "";
+
+    q.options.forEach((optText, index) => {
+      const btn = document.createElement("button");
+      btn.className = "opt-btn";
+      btn.innerHTML = `${optText} <span style="font-size:0.9rem; opacity:0.6;">🔊</span>`;
+      btn.onclick = () => {
+        speakEnglish(optText);
+        setTimeout(() => {
+          selectAnswer(index);
+        }, 400);
+      };
+      optContainer.appendChild(btn);
+    });
+
+    // تلقائياً ينطق الكلمة عند فتح السؤال لتعليم الطفل
+    setTimeout(() => {
+      speakEnglish(q.targetWord);
+    }, 300);
+  }
+
+  function selectAnswer(chosenIndex) {
+    const q = questions[currentQIndex];
+    if (chosenIndex === q.correct) {
+      studentScore++;
+    }
+
+    currentQIndex++;
+    if (currentQIndex < questions.length) {
+      loadQuestion();
+    } else {
+      clearInterval(timerInterval);
+      finishQuiz();
+    }
+  }
+
+  function finishQuiz() {
+    showScreen("screen-result");
+    const percentage = Math.round((studentScore / questions.length) * 100);
+    document.getElementById("finalScoreDisplay").innerText = percentage + "%";
+
+    let medal = "لا يوجد";
+    let medalIcon = "";
+    if (percentage >= 95) {
+      medal = "الميدالية الذهبية 🥇";
+      medalIcon = "🥇";
+    } else if (percentage >= 80) {
+      medal = "الميدالية الفضية 🥈";
+      medalIcon = "🥈";
+    } else if (percentage >= 70) {
+      medal = "الميدالية البرونزية 🥉";
+      medalIcon = "🥉";
+    }
+
+    let board = getLeaderboard();
+    board = board.filter(item => item.name !== currentStudent);
+    board.push({
+      name: currentStudent,
+      score: percentage,
+      medal: medal
+    });
+    board.sort((a, b) => b.score - a.score);
+    saveLeaderboard(board);
+    renderLeaderboards();
+
+    const currentRank = board.findIndex(st => st.name === currentStudent) + 1;
+
+    const certBox = document.getElementById("certificateBox");
+    const printBtn = document.getElementById("printCertBtn");
+    const congratsTitle = document.getElementById("congratsTitle");
+    const congratsDesc = document.getElementById("congratsDesc");
+
+    if (percentage >= 75) {
+      certBox.style.display = "block";
+      printBtn.style.display = "inline-block";
+      congratsTitle.innerText = `مبارك يا ${currentStudent}! لقد أتقنت حروف اللغة الإنجليزية 🎉`;
+      congratsDesc.innerText = `استحققت شهادة الشكر والتقدير ووسام الإتقان من مدارس البيارق الأهلية.`;
+
+      document.getElementById("certStudentName").innerText = currentStudent;
+      document.getElementById("certScore").innerText = percentage + "%";
+      document.getElementById("certRank").innerText = `#${currentRank}`;
+      document.getElementById("certMedalIcon").innerText = medalIcon || "🎖️";
+      document.getElementById("certMedalText").innerText = medal !== "لا يوجد" ? `استحققت عن جدارة: ${medal}` : "وسام إتقان حروف اللغة الإنجليزية";
+    } else {
+      certBox.style.display = "none";
+      printBtn.style.display = "none";
+      congratsTitle.innerText = `محاولة جيدة يا ${currentStudent}! 👍`;
+      congratsDesc.innerText = `درجتك هي ${percentage}%. يلزم الحصول على 75% فما فوق لنيل شهادة التقدير والميدالية. حاول مجدداً!`;
+    }
+  }
+
+  function restartQuiz() {
+    document.getElementById("studentNameInput").value = "";
+    showScreen("screen-register");
+    renderLeaderboards();
+  }
+
+  function showScreen(screenId) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.getElementById(screenId).classList.add("active");
+  }
+
+  window.onload = () => {
+    renderLeaderboards();
+  };
+</script>
+
+</body>
+</html>
